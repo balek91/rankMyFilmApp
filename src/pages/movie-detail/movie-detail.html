@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title *ngIf="movieDetail">{{movieDetail.Title}}</ion-title>
+    <!-- <ion-buttons end>
+      <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
+        <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
+      </button> 
+    </ion-buttons> -->
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-row>
+    <ion-col col-12 *ngIf="movieDetail" >
+        <img [src]="movieDetail.Poster" style="width:50%; margin-left:25%;"/>   
+    </ion-col>  
+    </ion-row>
+    <ion-row>
+    <ion-col col-12 *ngIf="movieDetail">
+        <ion-label>Information : </ion-label>
+        <ion-label>Title : {{movieDetail.Title}} </ion-label>
+        <p>Description : {{movieDetail.Plot}} </p>
+        <p>Year : {{movieDetail.Year}}</p>
+          <ion-item style="padding-left : 0px;">
+              <ion-label>Your Rank :  </ion-label>
+              <ion-select [(ngModel)]="note" interface="action-sheet" placeholder="3" (ngModelChange)="ranking($event)">
+                <ion-option value="1">1</ion-option>
+                <ion-option value="2">2</ion-option>
+                <ion-option value="3">3</ion-option>
+                <ion-option value="4">4</ion-option>
+                <ion-option value="5">5</ion-option>
+              </ion-select>
+            </ion-item> 
+    </ion-col>
+    </ion-row>
+</ion-content>
