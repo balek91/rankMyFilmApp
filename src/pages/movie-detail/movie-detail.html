@@ -26,12 +26,12 @@
         <p>Year : {{movieDetail.Year}}</p>
           <ion-item style="padding-left : 0px;">
               <ion-label>Your Rank :  </ion-label>
-              <ion-select [(ngModel)]="note" interface="action-sheet" placeholder="3" (ngModelChange)="ranking($event)">
-                <ion-option value="1">1</ion-option>
-                <ion-option value="2">2</ion-option>
-                <ion-option value="3">3</ion-option>
-                <ion-option value="4">4</ion-option>
-                <ion-option value="5">5</ion-option>
+              <ion-select [(ngModel)]="note" interface="action-sheet" placeholder={{maNoteAffichage}} (ngModelChange)="ranking($event)">
+                <ion-option value="1"> ★ </ion-option>
+                <ion-option value="2"> ★  ★ </ion-option>
+                <ion-option value="3"> ★  ★  ★ </ion-option>
+                <ion-option value="4"> ★  ★  ★  ★ </ion-option>
+                <ion-option value="5"> ★  ★  ★  ★  ★ </ion-option>
               </ion-select>
             </ion-item> 
     </ion-col>

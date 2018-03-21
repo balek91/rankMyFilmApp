@@ -15,34 +15,43 @@ import { NavParams } from 'ionic-angular';
 export class MovieDetailPage {
   movie: Films;
   isFavorite: boolean = false;
-  films: Observable<any>;
+  rankMovie : Observable<any>;
+  maNote : Observable<any>;
   movieDetail : FilmsDetails;
+  idUser : String = "6450af28-87ad-4e41-b7b5-08d58f412dd4";
+  maNoteAffichage : String;
 
   constructor(
     public httpClient: HttpClient,
     public navCtrl: NavController,
     public navParams: NavParams
-  ) {
-    // this.movieDetail = new FilmsDetails;
-  
-    // this.films = this.httpClient.get('http://www.omdbapi.com/?i='+this.movie.imdbID+'&apikey=dbc4e73d');
-    // this.films
-    // .subscribe(data => {
-    //  this.movieDetail = data;
-    //   console.log('my data: ', this.movieDetail.Title);
-    // })
-  }
-
+  ) {}
 
   ionViewDidLoad() {
-    // this.movieDetail = new Array<FilmsDetails>();
     this.movieDetail = this.navParams.data;
-    console.log('data'+this.navParams.data.toString());
-    console.log('film'+this.movieDetail.Poster);
 
+       if(this.movieDetail.MaNote=='5'){
+        this.maNoteAffichage = "★ ★ ★ ★ ★";
+       }else if(this.movieDetail.MaNote=='4'){
+        this.maNoteAffichage = "★ ★ ★ ★";
+       }
+       else if(this.movieDetail.MaNote=='3'){
+        this.maNoteAffichage = "★ ★ ★";
+       }
+       else if(this.movieDetail.MaNote=='2'){
+        this.maNoteAffichage = "★ ★";
+       }
+       else if(this.movieDetail.MaNote=='1'){
+        this.maNoteAffichage = "★";
+       }
+       else{
+        this.maNoteAffichage = "★ ★ ★";
+       }
   }
   ranking(selectedValue: any) {
-    console.log('Selected', selectedValue);
+     this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.imdbID+'/'+selectedValue);
+    this.rankMovie.subscribe(data => {
+      });
   }
 }
 

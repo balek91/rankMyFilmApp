@@ -24,4 +24,5 @@ export interface FilmsDetails
   Production:String;
   Website:String;
   Response:String;
+  MaNote : String;
 }

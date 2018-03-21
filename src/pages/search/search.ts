@@ -12,10 +12,11 @@ import { FilmsDetails } from "../../interface/FilmsDetails";
 })
 export class SearchPage {
 myInput: String;
-//title : String;
 titles : Array<String>;
 posters : Array<String>;
 films: Observable<any>;
+maNote : Observable<any>;
+idUser : String = "6450af28-87ad-4e41-b7b5-08d58f412dd4";
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 searchCrit: string = "movies";
@@ -65,9 +66,12 @@ goToDetail(movie: Films) {
   this.films
   .subscribe(data => {
    this.movieDetail = data;
-    console.log('my data: ', this.movieDetail);
+   this.maNote = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/GetRankModelByUserAndFilms/'+this.idUser+'/'+this.movieDetail.imdbID);
+   this.maNote.subscribe(data => {
+    this.movieDetail.MaNote = data[0].vote;
     this.navCtrl.push(MovieDetailPage, this.movieDetail);
+   });
+   
   })
-  
 }
 }
