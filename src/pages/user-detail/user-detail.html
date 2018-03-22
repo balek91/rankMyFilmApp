@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <!-- <ion-title *ngIf="movieDetail">{{movieDetail.Title}}</ion-title> -->
+    <!-- <ion-buttons end>
+      <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
+        <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
+      </button> 
+    </ion-buttons> -->
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-row>
+    <ion-col col-12 *ngIf="userDetail">
+
+        <ion-label>Pseudo : {{userDetail.pseudo}} </ion-label>
+        <ion-label>Email : {{userDetail.email}} </ion-label>
+    </ion-col>
+    </ion-row>
+</ion-content>

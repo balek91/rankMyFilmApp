@@ -3,7 +3,9 @@ import { NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Films } from "../../interface/Films";
+import { Users } from "../../interface/Users";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
+import { UserDetailPage } from "../user-detail/user-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 
 @Component({
@@ -15,10 +17,13 @@ myInput: String;
 titles : Array<String>;
 posters : Array<String>;
 films: Observable<any>;
+users: Observable<any>;
 maNote : Observable<any>;
 idUser : String = "6450af28-87ad-4e41-b7b5-08d58f412dd4";
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
+userDetail : Users;
+usersList : Array<Users>;
 searchCrit: string = "movies";
   constructor(public httpClient: HttpClient, public navCtrl: NavController) {
     this.titles = new Array<String>();
@@ -54,8 +59,18 @@ searchCrit: string = "movies";
     })
 
   }
-  else{
-    console.log('User Search');
+  else if(this.searchCrit=="users"){
+    console.log('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
+    this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
+    this.users
+    .subscribe(data => {
+      this.usersList = new Array<Users>();
+      for (var i=0; i<data.length; i++){
+        this.usersList.push(data[i]);
+        console.log(this.usersList);
+      // console.log()
+      }
+    })
   }
 
 
@@ -73,5 +88,16 @@ goToDetail(movie: Films) {
    });
    
   })
+}
+
+goToDetailUser(user: Users) {
+  this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+user.pseudo);
+  this.users
+  .subscribe(data => {
+   this.userDetail = data[0];
+   console.log('user'+ this.userDetail);
+    this.navCtrl.push(UserDetailPage, this.userDetail);
+   });
+
 }
 }

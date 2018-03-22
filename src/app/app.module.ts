@@ -8,6 +8,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { AccountPage } from '../pages/account/account';
 import { SearchPage } from '../pages/search/search';
 import { MovieDetailPage } from "../pages/movie-detail/movie-detail";
+import { UserDetailPage } from "../pages/user-detail/user-detail";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     TabsPage,
     AccountPage,
     SearchPage,
-    MovieDetailPage
+    MovieDetailPage,
+    UserDetailPage
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     TabsPage,
     AccountPage,
     SearchPage,
-    MovieDetailPage
+    MovieDetailPage,
+    UserDetailPage
   ],
   providers: [
     StatusBar,

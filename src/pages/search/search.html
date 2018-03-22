@@ -37,6 +37,11 @@
     </ion-col> 
   </ion-row>
 </div>
+<div *ngIf= "searchCrit == 'users'">
+    <ion-item *ngFor="let user of usersList">
+        <ion-label (click)="goToDetailUser(user)">{{user.pseudo}} </ion-label>
+      </ion-item> 
+    </div>
 
  <!-- <ion-item *ngFor="let movie of movies">
     <ion-label>{{movie.Title}} </ion-label>
