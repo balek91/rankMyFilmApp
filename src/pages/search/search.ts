@@ -19,7 +19,7 @@ posters : Array<String>;
 films: Observable<any>;
 users: Observable<any>;
 maNote : Observable<any>;
-idUser : String = "6450af28-87ad-4e41-b7b5-08d58f412dd4";
+idUser : String = "b8c19eb3-e634-4717-84c4-cb6b4197cb0c";
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 userDetail : Users;
@@ -37,23 +37,18 @@ searchCrit: string = "movies";
     this.films = this.httpClient.get('http://www.omdbapi.com/?s='+this.myInput+'&apikey=dbc4e73d');
     this.films
     .subscribe(data => {
-      //console.log('my data: ', data);
       if(data.Response == 'True'){
-      //  this.title = data.Search[0].Title;
         this.titles = new Array<String>();
         this.posters = new Array<String>();
         this.movies = new Array<Films>();
         for (var i=0; i<data.Search.length; i++){
-          //console.log("test" + data.Search[i].Title);
           this.posters.push(data.Search[i].Poster);
           this.titles.push(data.Search[i].Title);
           this.movies.push(data.Search[i]);
         }
-       // console.log(this.movies);
       }  else{
         this.titles = new Array<String>();
         this.posters = new Array<String>();
-       // console.log(this.titles);
       } 
   
     })
@@ -67,8 +62,6 @@ searchCrit: string = "movies";
       this.usersList = new Array<Users>();
       for (var i=0; i<data.length; i++){
         this.usersList.push(data[i]);
-        console.log(this.usersList);
-      // console.log()
       }
     })
   }
@@ -83,7 +76,12 @@ goToDetail(movie: Films) {
    this.movieDetail = data;
    this.maNote = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/GetRankModelByUserAndFilms/'+this.idUser+'/'+this.movieDetail.imdbID);
    this.maNote.subscribe(data => {
-    this.movieDetail.MaNote = data[0].vote;
+     if(data[0]!= null){
+      this.movieDetail.MaNote = data[0].vote;
+     }else{
+       this.movieDetail.MaNote = '3';
+     }
+    
     this.navCtrl.push(MovieDetailPage, this.movieDetail);
    });
    
@@ -91,10 +89,10 @@ goToDetail(movie: Films) {
 }
 
 goToDetailUser(user: Users) {
-  this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+user.pseudo);
+  this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+user.id);
   this.users
   .subscribe(data => {
-   this.userDetail = data[0];
+   this.userDetail = data;
    console.log('user'+ this.userDetail);
     this.navCtrl.push(UserDetailPage, this.userDetail);
    });

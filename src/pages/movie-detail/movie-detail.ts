@@ -18,7 +18,7 @@ export class MovieDetailPage {
   rankMovie : Observable<any>;
   maNote : Observable<any>;
   movieDetail : FilmsDetails;
-  idUser : String = "6450af28-87ad-4e41-b7b5-08d58f412dd4";
+  idUser : String = "b8c19eb3-e634-4717-84c4-cb6b4197cb0c";
   maNoteAffichage : String;
 
   constructor(
