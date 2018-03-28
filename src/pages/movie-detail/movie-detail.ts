@@ -18,7 +18,7 @@ export class MovieDetailPage {
   rankMovie : Observable<any>;
   maNote : Observable<any>;
   movieDetail : FilmsDetails;
-  idUser : String = "b8c19eb3-e634-4717-84c4-cb6b4197cb0c";
+  idUser : String = "f9b62405-5493-4460-a12b-85e012ac2b81";
   maNoteAffichage : String;
 
   constructor(
@@ -29,19 +29,19 @@ export class MovieDetailPage {
 
   ionViewDidLoad() {
     this.movieDetail = this.navParams.data;
-
-       if(this.movieDetail.MaNote=='5'){
+    console.log(this.movieDetail);
+       if(this.movieDetail.maNote=='5'){
         this.maNoteAffichage = "★ ★ ★ ★ ★";
-       }else if(this.movieDetail.MaNote=='4'){
+       }else if(this.movieDetail.maNote=='4'){
         this.maNoteAffichage = "★ ★ ★ ★";
        }
-       else if(this.movieDetail.MaNote=='3'){
+       else if(this.movieDetail.maNote=='3'){
         this.maNoteAffichage = "★ ★ ★";
        }
-       else if(this.movieDetail.MaNote=='2'){
+       else if(this.movieDetail.maNote=='2'){
         this.maNoteAffichage = "★ ★";
        }
-       else if(this.movieDetail.MaNote=='1'){
+       else if(this.movieDetail.maNote=='1'){
         this.maNoteAffichage = "★";
        }
        else{
@@ -49,7 +49,7 @@ export class MovieDetailPage {
        }
   }
   ranking(selectedValue: any) {
-     this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.imdbID+'/'+selectedValue);
+     this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.id+'/'+selectedValue);
     this.rankMovie.subscribe(data => {
       });
   }

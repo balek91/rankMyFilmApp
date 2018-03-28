@@ -19,7 +19,7 @@ posters : Array<String>;
 films: Observable<any>;
 users: Observable<any>;
 maNote : Observable<any>;
-idUser : String = "b8c19eb3-e634-4717-84c4-cb6b4197cb0c";
+idUser : String = "f9b62405-5493-4460-a12b-85e012ac2b81";
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 userDetail : Users;
@@ -33,36 +33,36 @@ searchCrit: string = "movies";
   // constructor(private http: HTTP){}
   onInput(){
   console.log(this.myInput);
-  if(this.searchCrit=="movies"){
-    this.films = this.httpClient.get('http://www.omdbapi.com/?s='+this.myInput+'&apikey=dbc4e73d');
+
+    if(this.searchCrit=="movies"){
+    this.films = this.httpClient.get('https://api.themoviedb.org/3/search/movie?api_key=3d65378d738d4283a901865f5598d212&page=1&language=fr&query='+this.myInput);
     this.films
     .subscribe(data => {
-      if(data.Response == 'True'){
+
         this.titles = new Array<String>();
         this.posters = new Array<String>();
         this.movies = new Array<Films>();
-        for (var i=0; i<data.Search.length; i++){
-          this.posters.push(data.Search[i].Poster);
-          this.titles.push(data.Search[i].Title);
-          this.movies.push(data.Search[i]);
-        }
-      }  else{
-        this.titles = new Array<String>();
-        this.posters = new Array<String>();
-      } 
-  
+        console.log(data);
+         for (var i=0; i<data.results.length; i++){
+
+          this.movies.push(data.results[i]);
+          this.movies[i].poster = 'http://image.tmdb.org/t/p/w185/' + this.movies[i].poster_path ;
+        } 
     })
 
   }
+  
   else if(this.searchCrit=="users"){
     console.log('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
     this.users
     .subscribe(data => {
+      if(data!=null){
       this.usersList = new Array<Users>();
       for (var i=0; i<data.length; i++){
         this.usersList.push(data[i]);
       }
+    }
     })
   }
 
@@ -70,18 +70,23 @@ searchCrit: string = "movies";
 }
 
 goToDetail(movie: Films) {
-  this.films = this.httpClient.get('http://www.omdbapi.com/?i='+movie.imdbID+'&apikey=dbc4e73d');
+  this.films = this.httpClient.get('https://api.themoviedb.org/3/movie/'+movie.id+'?api_key=3d65378d738d4283a901865f5598d212&language=fr');
   this.films
   .subscribe(data => {
    this.movieDetail = data;
-   this.maNote = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/GetRankModelByUserAndFilms/'+this.idUser+'/'+this.movieDetail.imdbID);
+   this.movieDetail.poster = 'http://image.tmdb.org/t/p/w185/' + data.poster_path;
+   this.movieDetail.genresList = new Array<String>();
+   for(var i = 0 ; i< data.genres.length; i++){
+    this.movieDetail.genresList.push(data.genres[i].name);
+   } 
+   this.maNote = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/GetRankModelByUserAndFilms/'+this.idUser+'/'+this.movieDetail.id);
    this.maNote.subscribe(data => {
      if(data[0]!= null){
-      this.movieDetail.MaNote = data[0].vote;
+      this.movieDetail.maNote = data[0].vote;
      }else{
-       this.movieDetail.MaNote = '3';
+       this.movieDetail.maNote = '3';
      }
-    
+    console.log(this.movieDetail);
     this.navCtrl.push(MovieDetailPage, this.movieDetail);
    });
    

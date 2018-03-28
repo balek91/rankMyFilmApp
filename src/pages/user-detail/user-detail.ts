@@ -13,7 +13,7 @@ import { NavParams } from 'ionic-angular';
 
 export class UserDetailPage {
 
-  idUser : String = "6450af28-87ad-4e41-b7b5-08d58f412dd4";
+  idUser : String = "f9b62405-5493-4460-a12b-85e012ac2b81";
   userDetail : Users;
 
   constructor(
