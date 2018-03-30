@@ -19,7 +19,7 @@ posters : Array<String>;
 films: Observable<any>;
 users: Observable<any>;
 maNote : Observable<any>;
-idUser : String = "f9b62405-5493-4460-a12b-85e012ac2b81";
+idUser : String = "83359a83-e1a7-4c67-9cc1-8c7a95898799";
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 userDetail : Users;
@@ -58,10 +58,12 @@ searchCrit: string = "movies";
     this.users
     .subscribe(data => {
       if(data!=null){
+        console.log(data);
       this.usersList = new Array<Users>();
       for (var i=0; i<data.length; i++){
         this.usersList.push(data[i]);
       }
+      // this.usersList.push(data);
     }
     })
   }
@@ -81,12 +83,15 @@ goToDetail(movie: Films) {
    } 
    this.maNote = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/GetRankModelByUserAndFilms/'+this.idUser+'/'+this.movieDetail.id);
    this.maNote.subscribe(data => {
-     if(data[0]!= null){
-      this.movieDetail.maNote = data[0].vote;
+     if(data!= null){
+      this.movieDetail.maNote = data.vote;
+      this.movieDetail.moyenneByAllUser = data.moyenneByAllUser;
+      this.movieDetail.moyenneByFriend = data.moyenneByFriend;
      }else{
        this.movieDetail.maNote = '3';
+       this.movieDetail.moyenneByAllUser = '3';
+       this.movieDetail.moyenneByFriend = '3';
      }
-    console.log(this.movieDetail);
     this.navCtrl.push(MovieDetailPage, this.movieDetail);
    });
    
@@ -94,10 +99,12 @@ goToDetail(movie: Films) {
 }
 
 goToDetailUser(user: Users) {
-  this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+user.id);
+  console.log('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+user.id+'/'+this.idUser);
+  this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser+'/'+user.id);
   this.users
   .subscribe(data => {
    this.userDetail = data;
+   console.log(data);
    console.log('user'+ this.userDetail);
     this.navCtrl.push(UserDetailPage, this.userDetail);
    });

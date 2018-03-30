@@ -18,6 +18,10 @@
 
         <ion-label>Pseudo : {{userDetail.pseudo}} </ion-label>
         <ion-label>Email : {{userDetail.email}} </ion-label>
+        <ion-label *ngIf="userDetail.teSuis">Cet utilisateur vous suit</ion-label>
+        <ion-label *ngIf="!userDetail.teSuis">Cet utilisateur ne vous suit pas</ion-label>
+        <ion-label *ngIf="userDetail.jeLeSuis">Vous suivez cet utilisateur</ion-label>
+        <ion-label *ngIf="!userDetail.jeLeSuis">Vous ne suivez pas cet utilisateur</ion-label>
     </ion-col>
     </ion-row>
 </ion-content>

@@ -27,7 +27,8 @@
        
         <ion-label >Genre : <span *ngFor="let genre of movieDetail.genresList"> {{genre}} ,</span> </ion-label>
 
-          
+        <ion-label *ngIf="moyenneFriend">Moyenne de mes amis : {{moyenneFriend}} </ion-label>
+        <ion-label *ngIf="moyenneAllUser">Moyenne de tous les users : {{moyenneAllUser}}</ion-label>  
         
         
           <ion-item style="padding-left : 0px;">

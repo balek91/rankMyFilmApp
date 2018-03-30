@@ -16,4 +16,6 @@ export interface Users {
   lockoutEnd: String;
   lockoutEnabled: Boolean;
   accessFailedCount: Int16Array; 
+  jeLeSuis : Boolean;
+  teSuis : Boolean;
 }

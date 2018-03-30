@@ -17,8 +17,10 @@ export class MovieDetailPage {
   isFavorite: boolean = false;
   rankMovie : Observable<any>;
   maNote : Observable<any>;
+  moyenneAllUser : string;
+  moyenneFriend : string;
   movieDetail : FilmsDetails;
-  idUser : String = "f9b62405-5493-4460-a12b-85e012ac2b81";
+  idUser : String = "83359a83-e1a7-4c67-9cc1-8c7a95898799";
   maNoteAffichage : String;
 
   constructor(
@@ -47,10 +49,54 @@ export class MovieDetailPage {
        else{
         this.maNoteAffichage = "★ ★ ★";
        }
+       console.log(parseFloat(this.movieDetail.moyenneByFriend));
+       if(parseFloat(this.movieDetail.moyenneByFriend)>=4.5){
+        this.moyenneFriend = "★ ★ ★ ★ ★";
+       }else if(parseFloat(this.movieDetail.moyenneByFriend)>=3.5 && parseFloat(this.movieDetail.moyenneByFriend)<4.5){
+        this.moyenneFriend = "★ ★ ★ ★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByFriend)>=2.5 && parseFloat(this.movieDetail.moyenneByFriend)<3.5){
+        this.moyenneFriend = "★ ★ ★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByFriend)>=1.5 && parseFloat(this.movieDetail.moyenneByFriend)<2.5){
+        this.moyenneFriend = "★ ★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByFriend)>=1 && parseFloat(this.movieDetail.moyenneByFriend)<1.5){
+        this.moyenneFriend = "★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByFriend)<1){
+        this.moyenneFriend = "Aucun Amis n'a noté le film";
+       }
+       console.log(parseFloat(this.movieDetail.moyenneByAllUser));
+       if(parseFloat(this.movieDetail.moyenneByAllUser)>=4.5){
+        this.moyenneAllUser = "★ ★ ★ ★ ★";
+       }else if(parseFloat(this.movieDetail.moyenneByAllUser)>=3.5 && parseFloat(this.movieDetail.moyenneByAllUser)<4.5){
+        this.moyenneAllUser = "★ ★ ★ ★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByAllUser)>=2.5 && parseFloat(this.movieDetail.moyenneByAllUser)<3.5){
+        this.moyenneAllUser = "★ ★ ★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByAllUser)>=1.5 && parseFloat(this.movieDetail.moyenneByAllUser)<2.5){
+        this.moyenneAllUser = "★ ★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByAllUser)>=1 && parseFloat(this.movieDetail.moyenneByAllUser)<1.5){
+        this.moyenneAllUser = "★";
+       }
+       else if(parseFloat(this.movieDetail.moyenneByAllUser)<1){
+        this.moyenneAllUser = "Aucun Utilisateur n'a noté le film";
+       }
+       console.log(this.moyenneAllUser);
+        console.log(this.moyenneFriend);
+
   }
   ranking(selectedValue: any) {
+    
      this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.id+'/'+selectedValue);
     this.rankMovie.subscribe(data => {
+      console.log(data);
+      this.movieDetail.moyenneByAllUser = data.moyenneByAllUser;
+      this.movieDetail.moyenneByFriend = data.moyenneByFriend;
+      this.ionViewDidLoad();
       });
   }
 }

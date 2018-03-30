@@ -23,4 +23,6 @@ video	:Boolean;
 vote_average :Number;
 vote_count :Number;
 maNote : String;
+moyenneByFriend : string;
+moyenneByAllUser : string;
 }
