@@ -4,17 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Users } from "../../interface/Users";
 import { NavParams } from 'ionic-angular';
-import { UserDetailMoviesPage } from "../user-detail-movies/user-detail-movies";
+import { Films } from "../../interface/Films";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 
 
 @Component({
-  selector: 'page-user-detail',
-  templateUrl: 'user-detail.html'
+  selector: 'page-user-detail-movies',
+  templateUrl: 'user-detail-movies.html'
 })
 
-export class UserDetailPage {
+export class UserDetailMoviesPage {
 
   idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
   userDetail : Users;
@@ -22,6 +22,7 @@ export class UserDetailPage {
   films: Observable<any>;
   movieDetail : FilmsDetails;
   maNote : Observable<any>;
+  myInput: String;
 
   constructor(
     public httpClient: HttpClient,
@@ -31,48 +32,38 @@ export class UserDetailPage {
 
   ionViewDidLoad() {
     this.userDetail = this.navParams.data;
-    console.log('test' + this.userDetail.film.length);
+    console.log(this.userDetail.film);
   }
 
-  follow(){
-    this.suivre = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/friend/suivre/'+this.idUser+'/'+this.userDetail.id);
-    this.suivre.subscribe(data => {
-      this.userDetail.jeLeSuis=true;
-           });
-  }
-
-  goToListMovie(user: Users) {
-    this.films = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/get/'+user.id);
-    this.films.subscribe(data => {
-      
-      user.film = data;
-
+  onInput(){
+    console.log('ok');
+    this.films = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/getRankByTitle/'+this.userDetail.id+'/'+this.myInput);
+    this.films
+    .subscribe(data => {
+      this.userDetail.filmSearch =  data;
       for (var i=0; i<data.length; i++){
-        user.film[i].poster = 'http://image.tmdb.org/t/p/w185/' + data[i].poster;
-        if(user.film[i].vote=='5'){
-          user.film[i].vote = "★ ★ ★ ★ ★";
-         }else if(user.film[i].vote=='4'){
-          user.film[i].vote = "★ ★ ★ ★";
+        this.userDetail.filmSearch[i].poster = 'http://image.tmdb.org/t/p/w185/' + data[i].poster;
+        if(this.userDetail.filmSearch[i].vote=='5'){
+          this.userDetail.filmSearch[i].vote = "★ ★ ★ ★ ★";
+         }else if(this.userDetail.filmSearch[i].vote=='4'){
+          this.userDetail.filmSearch[i].vote = "★ ★ ★ ★";
          }
-         else if(user.film[i].vote=='3'){
-          user.film[i].vote = "★ ★ ★";
+         else if(this.userDetail.filmSearch[i].vote=='3'){
+          this.userDetail.filmSearch[i].vote = "★ ★ ★";
          }
-         else if(user.film[i].vote=='2'){
-          user.film[i].vote = "★ ★";
+         else if(this.userDetail.filmSearch[i].vote=='2'){
+          this.userDetail.filmSearch[i].vote = "★ ★";
          }
-         else if(user.film[i].vote=='1'){
-          user.film[i].vote = "★";
+         else if(this.userDetail.filmSearch[i].vote=='1'){
+          this.userDetail.filmSearch[i].vote = "★";
          }
          else{
-          user.film[i].vote = "★ ★ ★";
+          this.userDetail.filmSearch[i].vote = "★ ★ ★";
          }
       } 
-      user.filmSearch = user.film; 
-      console.log('user' + user);
-      this.navCtrl.push(UserDetailMoviesPage, user);
-           });
-    
+    })
   }
+
   goToDetail(movie: String) {
 
     this.films = this.httpClient.get('https://api.themoviedb.org/3/movie/'+movie+'?api_key=3d65378d738d4283a901865f5598d212&language=fr');
@@ -102,6 +93,7 @@ export class UserDetailPage {
      
     })
   }
+
 }
 
 

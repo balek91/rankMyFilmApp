@@ -9,6 +9,7 @@ import { AccountPage } from '../pages/account/account';
 import { SearchPage } from '../pages/search/search';
 import { MovieDetailPage } from "../pages/movie-detail/movie-detail";
 import { UserDetailPage } from "../pages/user-detail/user-detail";
+import { UserDetailMoviesPage } from "../pages/user-detail-movies/user-detail-movies";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     AccountPage,
     SearchPage,
     MovieDetailPage,
-    UserDetailPage
+    UserDetailPage,
+    UserDetailMoviesPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     AccountPage,
     SearchPage,
     MovieDetailPage,
-    UserDetailPage
+    UserDetailPage,
+    UserDetailMoviesPage
   ],
   providers: [
     StatusBar,

@@ -14,4 +14,5 @@ export interface Films {
   adult	:Boolean;
   overview :String;
   release_date :String;
+  vote:String;
 }

@@ -7,6 +7,7 @@ import { FilmsDetails } from "../../interface/FilmsDetails";
 import { NavParams } from 'ionic-angular';
 
 
+
 @Component({
   selector: 'page-movie-detail',
   templateUrl: 'movie-detail.html'
@@ -20,8 +21,9 @@ export class MovieDetailPage {
   moyenneAllUser : string;
   moyenneFriend : string;
   movieDetail : FilmsDetails;
-  idUser : String = "83359a83-e1a7-4c67-9cc1-8c7a95898799";
+  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
   maNoteAffichage : String;
+  poster_path :String;
 
   constructor(
     public httpClient: HttpClient,
@@ -31,7 +33,6 @@ export class MovieDetailPage {
 
   ionViewDidLoad() {
     this.movieDetail = this.navParams.data;
-    console.log(this.movieDetail);
        if(this.movieDetail.maNote=='5'){
         this.maNoteAffichage = "★ ★ ★ ★ ★";
        }else if(this.movieDetail.maNote=='4'){
@@ -49,7 +50,6 @@ export class MovieDetailPage {
        else{
         this.maNoteAffichage = "★ ★ ★";
        }
-       console.log(parseFloat(this.movieDetail.moyenneByFriend));
        if(parseFloat(this.movieDetail.moyenneByFriend)>=4.5){
         this.moyenneFriend = "★ ★ ★ ★ ★";
        }else if(parseFloat(this.movieDetail.moyenneByFriend)>=3.5 && parseFloat(this.movieDetail.moyenneByFriend)<4.5){
@@ -67,7 +67,6 @@ export class MovieDetailPage {
        else if(parseFloat(this.movieDetail.moyenneByFriend)<1){
         this.moyenneFriend = "Aucun Amis n'a noté le film";
        }
-       console.log(parseFloat(this.movieDetail.moyenneByAllUser));
        if(parseFloat(this.movieDetail.moyenneByAllUser)>=4.5){
         this.moyenneAllUser = "★ ★ ★ ★ ★";
        }else if(parseFloat(this.movieDetail.moyenneByAllUser)>=3.5 && parseFloat(this.movieDetail.moyenneByAllUser)<4.5){
@@ -85,13 +84,10 @@ export class MovieDetailPage {
        else if(parseFloat(this.movieDetail.moyenneByAllUser)<1){
         this.moyenneAllUser = "Aucun Utilisateur n'a noté le film";
        }
-       console.log(this.moyenneAllUser);
-        console.log(this.moyenneFriend);
-
   }
   ranking(selectedValue: any) {
-    
-     this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.id+'/'+selectedValue);
+   this.poster_path = this.movieDetail.poster_path.substr(1);
+     this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.id+'/'+selectedValue+'/'+this.poster_path+'/'+this.movieDetail.title);
     this.rankMovie.subscribe(data => {
       console.log(data);
       this.movieDetail.moyenneByAllUser = data.moyenneByAllUser;

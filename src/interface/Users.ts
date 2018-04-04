@@ -1,3 +1,5 @@
+import { Films } from "../interface/Films";
+
 export interface Users {
   guid: String; 
   pseudo: String; 
@@ -18,4 +20,6 @@ export interface Users {
   accessFailedCount: Int16Array; 
   jeLeSuis : Boolean;
   teSuis : Boolean;
+  film : Array<Films>;
+  filmSearch : Array<Films>;
 }

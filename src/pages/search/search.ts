@@ -7,6 +7,8 @@ import { Users } from "../../interface/Users";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { UserDetailPage } from "../user-detail/user-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
+import { AccountPage } from "../account/account";
+
 
 @Component({
   selector: 'page-search',
@@ -19,7 +21,8 @@ posters : Array<String>;
 films: Observable<any>;
 users: Observable<any>;
 maNote : Observable<any>;
-idUser : String = "83359a83-e1a7-4c67-9cc1-8c7a95898799";
+idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 userDetail : Users;
@@ -30,51 +33,38 @@ searchCrit: string = "movies";
     this.posters = new Array<String>();
     this.movies = new Array<Films>();
   }
-  // constructor(private http: HTTP){}
   onInput(){
-  console.log(this.myInput);
-
     if(this.searchCrit=="movies"){
     this.films = this.httpClient.get('https://api.themoviedb.org/3/search/movie?api_key=3d65378d738d4283a901865f5598d212&page=1&language=fr&query='+this.myInput);
     this.films
     .subscribe(data => {
-
         this.titles = new Array<String>();
         this.posters = new Array<String>();
         this.movies = new Array<Films>();
-        console.log(data);
          for (var i=0; i<data.results.length; i++){
-
           this.movies.push(data.results[i]);
           this.movies[i].poster = 'http://image.tmdb.org/t/p/w185/' + this.movies[i].poster_path ;
         } 
     })
-
   }
-  
   else if(this.searchCrit=="users"){
-    console.log('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
     this.users
     .subscribe(data => {
       if(data!=null){
-        console.log(data);
       this.usersList = new Array<Users>();
       for (var i=0; i<data.length; i++){
         this.usersList.push(data[i]);
       }
-      // this.usersList.push(data);
     }
     })
   }
-
-
 }
-
 goToDetail(movie: Films) {
   this.films = this.httpClient.get('https://api.themoviedb.org/3/movie/'+movie.id+'?api_key=3d65378d738d4283a901865f5598d212&language=fr');
   this.films
   .subscribe(data => {
+    console.log(data);
    this.movieDetail = data;
    this.movieDetail.poster = 'http://image.tmdb.org/t/p/w185/' + data.poster_path;
    this.movieDetail.genresList = new Array<String>();
@@ -92,6 +82,7 @@ goToDetail(movie: Films) {
        this.movieDetail.moyenneByAllUser = '3';
        this.movieDetail.moyenneByFriend = '3';
      }
+     
     this.navCtrl.push(MovieDetailPage, this.movieDetail);
    });
    
@@ -99,15 +90,41 @@ goToDetail(movie: Films) {
 }
 
 goToDetailUser(user: Users) {
-  console.log('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+user.id+'/'+this.idUser);
+  console.log("click ok");
   this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser+'/'+user.id);
   this.users
   .subscribe(data => {
+    console.log(data);
    this.userDetail = data;
-   console.log(data);
-   console.log('user'+ this.userDetail);
-    this.navCtrl.push(UserDetailPage, this.userDetail);
-   });
+    
+    this.films = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/getRankByDate/'+user.id+'/10');
+    this.films.subscribe(data => {
+      this.userDetail.film = data;
+      for (var i=0; i<data.length; i++){
+        this.userDetail.film[i].poster = 'http://image.tmdb.org/t/p/w185/' + data[i].poster;
+
+
+        if(this.userDetail.film[i].vote=='5'){
+          this.userDetail.film[i].vote = "★ ★ ★ ★ ★";
+         }else if(this.userDetail.film[i].vote=='4'){
+          this.userDetail.film[i].vote = "★ ★ ★ ★";
+         }
+         else if(this.userDetail.film[i].vote=='3'){
+          this.userDetail.film[i].vote = "★ ★ ★";
+         }
+         else if(this.userDetail.film[i].vote=='2'){
+          this.userDetail.film[i].vote = "★ ★";
+         }
+         else if(this.userDetail.film[i].vote=='1'){
+          this.userDetail.film[i].vote = "★";
+         }
+         else{
+          this.userDetail.film[i].vote = "★ ★ ★";
+         }
+      } 
+      this.navCtrl.push(UserDetailPage, this.userDetail);
+    });
+     });
 
 }
 }
