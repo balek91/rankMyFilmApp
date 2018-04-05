@@ -8,6 +8,7 @@ import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { UserDetailPage } from "../user-detail/user-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { AccountPage } from "../account/account";
+import { LoadingController} from 'ionic-angular';
 
 
 @Component({
@@ -21,20 +22,29 @@ posters : Array<String>;
 films: Observable<any>;
 users: Observable<any>;
 maNote : Observable<any>;
-idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+loading;
+
+  // victor
+  // idUser : String = "96646d37-0265-4c4e-8bad-3be95558bc79";
+  //enzo 
+    //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
+  //antoine
+  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
 
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 userDetail : Users;
 usersList : Array<Users>;
 searchCrit: string = "movies";
-  constructor(public httpClient: HttpClient, public navCtrl: NavController) {
+  constructor(public httpClient: HttpClient, public navCtrl: NavController, public loadingCtrl: LoadingController) {
     this.titles = new Array<String>();
     this.posters = new Array<String>();
     this.movies = new Array<Films>();
   }
   onInput(){
     if(this.searchCrit=="movies"){
+      // this.loading = this.loadingCtrl.create({});
+      // this.loading.present();
     this.films = this.httpClient.get('https://api.themoviedb.org/3/search/movie?api_key=3d65378d738d4283a901865f5598d212&page=1&language=fr&query='+this.myInput);
     this.films
     .subscribe(data => {
@@ -45,9 +55,12 @@ searchCrit: string = "movies";
           this.movies.push(data.results[i]);
           this.movies[i].poster = 'http://image.tmdb.org/t/p/w185/' + this.movies[i].poster_path ;
         } 
+        // this.loading.dismiss();
     })
   }
   else if(this.searchCrit=="users"){
+    // this.loading = this.loadingCtrl.create({});
+    // this.loading.present();
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/getByName/'+this.myInput);
     this.users
     .subscribe(data => {
@@ -57,10 +70,13 @@ searchCrit: string = "movies";
         this.usersList.push(data[i]);
       }
     }
+    // this.loading.dismiss();
     })
   }
 }
 goToDetail(movie: Films) {
+  this.loading = this.loadingCtrl.create({});
+  this.loading.present();
   this.films = this.httpClient.get('https://api.themoviedb.org/3/movie/'+movie.id+'?api_key=3d65378d738d4283a901865f5598d212&language=fr');
   this.films
   .subscribe(data => {
@@ -82,7 +98,7 @@ goToDetail(movie: Films) {
        this.movieDetail.moyenneByAllUser = '3';
        this.movieDetail.moyenneByFriend = '3';
      }
-     
+     this.loading.dismiss();
     this.navCtrl.push(MovieDetailPage, this.movieDetail);
    });
    
@@ -90,7 +106,8 @@ goToDetail(movie: Films) {
 }
 
 goToDetailUser(user: Users) {
-  console.log("click ok");
+  this.loading = this.loadingCtrl.create({});
+  this.loading.present();
   this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser+'/'+user.id);
   this.users
   .subscribe(data => {
@@ -122,6 +139,7 @@ goToDetailUser(user: Users) {
           this.userDetail.film[i].vote = "★ ★ ★";
          }
       } 
+      this.loading.dismiss();
       this.navCtrl.push(UserDetailPage, this.userDetail);
     });
      });

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Films } from "../../interface/Films";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { NavParams } from 'ionic-angular';
+import { LoadingController} from 'ionic-angular';
 
 
 
@@ -21,14 +22,21 @@ export class MovieDetailPage {
   moyenneAllUser : string;
   moyenneFriend : string;
   movieDetail : FilmsDetails;
-  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
   maNoteAffichage : String;
   poster_path :String;
+  loading;
+    // victor
+  // idUser : String = "96646d37-0265-4c4e-8bad-3be95558bc79";
+  //enzo 
+  //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
+  //antoine
+  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
 
   constructor(
     public httpClient: HttpClient,
     public navCtrl: NavController,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public loadingCtrl: LoadingController
   ) {}
 
   ionViewDidLoad() {
@@ -86,6 +94,8 @@ export class MovieDetailPage {
        }
   }
   ranking(selectedValue: any) {
+    this.loading = this.loadingCtrl.create({});
+    this.loading.present();
    this.poster_path = this.movieDetail.poster_path.substr(1);
      this.rankMovie=this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/createRank/'+this.idUser+'/'+this.movieDetail.id+'/'+selectedValue+'/'+this.poster_path+'/'+this.movieDetail.title);
     this.rankMovie.subscribe(data => {
@@ -93,6 +103,7 @@ export class MovieDetailPage {
       this.movieDetail.moyenneByAllUser = data.moyenneByAllUser;
       this.movieDetail.moyenneByFriend = data.moyenneByFriend;
       this.ionViewDidLoad();
+      this.loading.dismiss();
       });
   }
 }

@@ -20,15 +20,14 @@
     </ion-row>
     <ion-row>
     <ion-col col-12 *ngIf="movieDetail">
-        <ion-label>Information : </ion-label>
-        <ion-label>Titre : {{movieDetail.title}} </ion-label>
-        <p>Description : {{movieDetail.overview}} </p>
+        <ion-label class="movieTitle">{{movieDetail.title}} </ion-label>
+        <p class="movieDesc">{{movieDetail.overview}} </p>
         <ion-label>Date de Sortie : {{movieDetail.release_date}}</ion-label>
         <ion-label>Durée : {{movieDetail.runtime}} minutes</ion-label>
-        <ion-label >Genre : <span *ngFor="let genre of movieDetail.genresList"> {{genre}} ,</span> </ion-label>
+        <p >Genre : <span *ngFor="let genre of movieDetail.genresList; let last = last"> {{genre}} <span *ngIf="!last">,</span></span> </p>
 
-        <ion-label *ngIf="moyenneFriend">Moyenne de mes amis : {{moyenneFriend}} </ion-label>
-        <ion-label *ngIf="moyenneAllUser">Moyenne de tous les users : {{moyenneAllUser}}</ion-label>  
+        <ion-label *ngIf="moyenneFriend">Moyenne amis : {{moyenneFriend}} </ion-label>
+        <ion-label *ngIf="moyenneAllUser">Moyenne Utilisateurs : {{moyenneAllUser}}</ion-label>  
         
         
           <ion-item style="padding-left : 0px;">

@@ -7,6 +7,7 @@ import { Films } from "../../interface/Films";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { UserDetailMoviesPage } from "../user-detail-movies/user-detail-movies";
+import { LoadingController} from 'ionic-angular';
 
 @Component({
   selector: 'page-account',
@@ -14,18 +15,33 @@ import { UserDetailMoviesPage } from "../user-detail-movies/user-detail-movies";
 })
 export class AccountPage {
 
-  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
   userDetail : Users;
   users : Observable<any>;
   films: Observable<any>;
   movieDetail : FilmsDetails;
   maNote : Observable<any>;
+  loading ;
+
+
+  // victor
+  // idUser : String = "96646d37-0265-4c4e-8bad-3be95558bc79";
+  //enzo 
+  //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
+  //antoine
+  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+  
 
   constructor(
     public httpClient: HttpClient,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController
   ) {}
+
+
+
   ionViewDidLoad() {
+    this.loading = this.loadingCtrl.create({});
+    this.loading.present();
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser);
     this.users
     .subscribe(data => {
@@ -56,12 +72,14 @@ export class AccountPage {
           this.userDetail.film[i].vote = "★ ★ ★";
          }
       } 
+      this.loading.dismiss();
     });
      });
 
   }
   goToDetail(movie: String) {
-
+    this.loading = this.loadingCtrl.create({});
+    this.loading.present();
     this.films = this.httpClient.get('https://api.themoviedb.org/3/movie/'+movie+'?api_key=3d65378d738d4283a901865f5598d212&language=fr');
     this.films
     .subscribe(data => {
@@ -83,13 +101,15 @@ export class AccountPage {
          this.movieDetail.moyenneByAllUser = '3';
          this.movieDetail.moyenneByFriend = '3';
        }
-       
+       this.loading.dismiss();
       this.navCtrl.push(MovieDetailPage, this.movieDetail);
      });
      
     })
   }
   goToListMovie(user: Users) {
+    this.loading = this.loadingCtrl.create({});
+    this.loading.present();
     this.films = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/get/'+user.id);
     this.films.subscribe(data => {
       
@@ -117,6 +137,7 @@ export class AccountPage {
       } 
       user.filmSearch = user.film; 
       console.log('user' + user);
+      this.loading.dismiss();
       this.navCtrl.push(UserDetailMoviesPage, user);
            });
     
