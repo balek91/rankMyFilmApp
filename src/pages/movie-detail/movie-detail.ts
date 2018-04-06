@@ -6,7 +6,7 @@ import { Films } from "../../interface/Films";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { NavParams } from 'ionic-angular';
 import { LoadingController} from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -36,10 +36,14 @@ export class MovieDetailPage {
     public httpClient: HttpClient,
     public navCtrl: NavController,
     public navParams: NavParams,
+    private storage: Storage,
     public loadingCtrl: LoadingController
   ) {}
 
   ionViewDidLoad() {
+    this.storage.get('idUser').then((val) => {
+      console.log('Your token is', val);
+      this.idUser = val;
     this.movieDetail = this.navParams.data;
        if(this.movieDetail.maNote=='5'){
         this.maNoteAffichage = "★ ★ ★ ★ ★";
@@ -92,6 +96,7 @@ export class MovieDetailPage {
        else if(parseFloat(this.movieDetail.moyenneByAllUser)<1){
         this.moyenneAllUser = "Aucun Utilisateur n'a noté le film";
        }
+      });
   }
   ranking(selectedValue: any) {
     this.loading = this.loadingCtrl.create({});

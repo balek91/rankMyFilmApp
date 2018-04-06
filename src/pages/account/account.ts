@@ -8,6 +8,9 @@ import { FilmsDetails } from "../../interface/FilmsDetails";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { UserDetailMoviesPage } from "../user-detail-movies/user-detail-movies";
 import { LoadingController} from 'ionic-angular';
+import { App } from 'ionic-angular';
+import { LoginPage } from '../login/login';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-account',
@@ -28,18 +31,32 @@ export class AccountPage {
   //enzo 
   //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
   //antoine
-  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+  idUser : String ;
   
 
   constructor(
     public httpClient: HttpClient,
     public navCtrl: NavController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public app: App,
+    private storage : Storage
   ) {}
 
-
+  logout() {
+    this.cleanStorage();
+    this.app.getRootNavs()[0].setRoot(LoginPage);
+  }
+  cleanStorage(){
+    this.storage.clear().then(() => {
+      console.log('all keys cleared');
+    });
+  }
 
   ionViewDidLoad() {
+    this.storage.get('idUser').then((val) => {
+      console.log('Your token is', val);
+      this.idUser = val;
+   
     this.loading = this.loadingCtrl.create({});
     this.loading.present();
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser);
@@ -75,6 +92,7 @@ export class AccountPage {
       this.loading.dismiss();
     });
      });
+    });
 
   }
   goToDetail(movie: String) {

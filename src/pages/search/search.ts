@@ -9,6 +9,7 @@ import { UserDetailPage } from "../user-detail/user-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { AccountPage } from "../account/account";
 import { LoadingController} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -29,17 +30,24 @@ loading;
   //enzo 
     //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
   //antoine
-  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+  idUser : String;
 
 movies = new Array<Films>();
 movieDetail : FilmsDetails;
 userDetail : Users;
 usersList : Array<Users>;
 searchCrit: string = "movies";
-  constructor(public httpClient: HttpClient, public navCtrl: NavController, public loadingCtrl: LoadingController) {
+  constructor(public httpClient: HttpClient, public navCtrl: NavController, private storage: Storage, public loadingCtrl: LoadingController) {
     this.titles = new Array<String>();
     this.posters = new Array<String>();
     this.movies = new Array<Films>();
+  }
+
+  ionViewDidLoad() {
+    this.storage.get('idUser').then((val) => {
+      console.log('Your token is', val);
+      this.idUser = val;
+    });
   }
   onInput(){
     if(this.searchCrit=="movies"){

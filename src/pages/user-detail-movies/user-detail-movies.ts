@@ -8,6 +8,7 @@ import { Films } from "../../interface/Films";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { LoadingController} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -30,18 +31,22 @@ export class UserDetailMoviesPage {
   //enzo 
   //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
   //antoine
-  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+  idUser : String ;
 
   constructor(
     public httpClient: HttpClient,
     public navCtrl: NavController,
     public navParams: NavParams,
+    private storage: Storage,
     public loadingCtrl: LoadingController
   ) {}
 
   ionViewDidLoad() {
     this.userDetail = this.navParams.data;
-    console.log(this.userDetail.film);
+    this.storage.get('idUser').then((val) => {
+      console.log('Your token is', val);
+      this.idUser = val;
+    });
   }
 
   onInput(){

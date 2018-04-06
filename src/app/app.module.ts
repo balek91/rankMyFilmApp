@@ -10,10 +10,15 @@ import { SearchPage } from '../pages/search/search';
 import { MovieDetailPage } from "../pages/movie-detail/movie-detail";
 import { UserDetailPage } from "../pages/user-detail/user-detail";
 import { UserDetailMoviesPage } from "../pages/user-detail-movies/user-detail-movies";
+import { LoginPageModule } from '../pages/login/login.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClientModule } from '@angular/common/http';
+
+import { IonicStorageModule } from '@ionic/storage';
+import{ HttpModule } from '@angular/http';
+
 
 @NgModule({
   declarations: [
@@ -25,11 +30,15 @@ import { HttpClientModule } from '@angular/common/http';
     MovieDetailPage,
     UserDetailPage,
     UserDetailMoviesPage
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    LoginPageModule,
+    IonicModule.forRoot(MyApp),
+    HttpModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

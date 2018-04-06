@@ -1,4 +1,14 @@
-  <ion-content class="userBackground">
+ 
+ <ion-header>
+    <ion-navbar>
+      <ion-title>Account</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="logout()">
+          Logout
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header><ion-content class="userBackground">
       <ion-row>
       <ion-col col-12 *ngIf="userDetail">
   

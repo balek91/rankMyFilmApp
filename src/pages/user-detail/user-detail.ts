@@ -8,6 +8,7 @@ import { UserDetailMoviesPage } from "../user-detail-movies/user-detail-movies";
 import { MovieDetailPage } from "../movie-detail/movie-detail";
 import { FilmsDetails } from "../../interface/FilmsDetails";
 import { LoadingController} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -34,11 +35,16 @@ export class UserDetailPage {
     public httpClient: HttpClient,
     public navCtrl: NavController,
     public navParams: NavParams,
+    private storage: Storage,
     public loadingCtrl: LoadingController
   ) {}
 
   ionViewDidLoad() {
     this.userDetail = this.navParams.data;
+    this.storage.get('idUser').then((val) => {
+      console.log('Your token is', val);
+      this.idUser = val;
+    });
   }
 
   unfollow(){
