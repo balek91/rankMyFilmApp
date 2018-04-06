@@ -57,8 +57,8 @@ export class AccountPage {
       console.log('Your token is', val);
       this.idUser = val;
    
-    this.loading = this.loadingCtrl.create({});
-    this.loading.present();
+    // this.loading = this.loadingCtrl.create({});
+    // this.loading.present();
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser);
     this.users
     .subscribe(data => {
@@ -89,7 +89,7 @@ export class AccountPage {
           this.userDetail.film[i].vote = "★ ★ ★";
          }
       } 
-      this.loading.dismiss();
+      //this.loading.dismiss();
     });
      });
     });

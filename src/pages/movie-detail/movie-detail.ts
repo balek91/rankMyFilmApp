@@ -30,7 +30,7 @@ export class MovieDetailPage {
   //enzo 
   //idUser : String = "60b279ec-02c9-491e-8b2f-60c3f91af182";
   //antoine
-  idUser : String = "5ce662e2-ec10-4e6f-8fbe-02d03f88d66d";
+  idUser : String ;
 
   constructor(
     public httpClient: HttpClient,
@@ -97,6 +97,7 @@ export class MovieDetailPage {
         this.moyenneAllUser = "Aucun Utilisateur n'a noté le film";
        }
       });
+      
   }
   ranking(selectedValue: any) {
     this.loading = this.loadingCtrl.create({});

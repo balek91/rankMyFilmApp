@@ -9,6 +9,7 @@ import { AccountPage } from '../pages/account/account';
 import { SearchPage } from '../pages/search/search';
 import { MovieDetailPage } from "../pages/movie-detail/movie-detail";
 import { UserDetailPage } from "../pages/user-detail/user-detail";
+import { CreatePage } from "../pages/create/create";
 import { UserDetailMoviesPage } from "../pages/user-detail-movies/user-detail-movies";
 import { LoginPageModule } from '../pages/login/login.module';
 
@@ -29,6 +30,7 @@ import{ HttpModule } from '@angular/http';
     SearchPage,
     MovieDetailPage,
     UserDetailPage,
+    CreatePage,
     UserDetailMoviesPage
 
   ],
@@ -49,6 +51,7 @@ import{ HttpModule } from '@angular/http';
     SearchPage,
     MovieDetailPage,
     UserDetailPage,
+    CreatePage,
     UserDetailMoviesPage
   ],
   providers: [

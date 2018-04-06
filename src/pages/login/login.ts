@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
+import { CreatePage } from '../create/create';
 import { Storage } from '@ionic/storage';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
@@ -28,7 +29,9 @@ export class LoginPage {
       console.log('all keys cleared');
     });
   }
-
+  createAccount(){
+    this.navCtrl.push(CreatePage);
+  }
   login(): void {
     this.postRequest(this.username, this.password);
   }

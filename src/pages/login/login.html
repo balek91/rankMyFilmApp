@@ -1,14 +1,7 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Login
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-<ion-content padding>
+<ion-content padding class="contentLogin">
   <ion-row>
     <ion-col text-center>
-      <img src="assets/imgs/okta.png" width="300">
+      <img src="assets/imgs/rankMyFilm.png" width="300">
     </ion-col>
   </ion-row>
   <div>
@@ -30,11 +23,12 @@
       <ion-row>
         <ion-col>
           <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-          <button ion-button class="submit-btn" full type="submit"
+          <button ion-button block class="submit-btn" full type="submit"
                   [disabled]="!loginForm.form.valid">Login
           </button>
         </ion-col>
       </ion-row>
     </form>
   </div>
+  <button ion-button block (click)="createAccount()">Créer un compte</button>
 </ion-content>
