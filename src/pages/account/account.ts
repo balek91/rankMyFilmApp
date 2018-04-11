@@ -53,18 +53,33 @@ export class AccountPage {
   }
 
   ionViewDidLoad() {
+  
+
+    this.showAll(null);
+  }
+
+  doRefresh(refresher) {
+    this.showAll(refresher);
+  }
+
+  showAll(refresh){
+
     this.storage.get('idUser').then((val) => {
-      console.log('Your token is', val);
       this.idUser = val;
-   
-    // this.loading = this.loadingCtrl.create({});
-    // this.loading.present();
+   if(refresh==null){
+    this.loading = this.loadingCtrl.create({});
+   this.loading.present();
+  }
+  else{
+    console.log('Begin async operation', refresh);
+  }
+
     this.users = this.httpClient.get('https://rankmyfilmcore.azurewebsites.net/api/user/get/'+this.idUser);
     this.users
     .subscribe(data => {
+      if(refresh==null){
      this.userDetail = data;
-     console.log('user'+ this.userDetail);
-     console.log('http://rankmyfilmcore.azurewebsites.net/api/rank/getRankByDate/'+this.idUser+'/10');
+      }
      this.films = this.httpClient.get('http://rankmyfilmcore.azurewebsites.net/api/rank/getRankByDate/'+this.idUser+'/10');
     this.films.subscribe(data => {
       this.userDetail.film = data;
@@ -89,11 +104,15 @@ export class AccountPage {
           this.userDetail.film[i].vote = "★ ★ ★";
          }
       } 
-      //this.loading.dismiss();
+      if(refresh==null){
+        this.loading.dismiss();
+      }else{
+        refresh.complete();
+      }
+      
     });
      });
     });
-
   }
   goToDetail(movie: String) {
     this.loading = this.loadingCtrl.create({});

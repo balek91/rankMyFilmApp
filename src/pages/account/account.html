@@ -8,7 +8,11 @@
         </button>
       </ion-buttons>
     </ion-navbar>
-  </ion-header><ion-content class="userBackground">
+  </ion-header>
+  <ion-content class="userBackground">
+      <ion-refresher (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
       <ion-row>
       <ion-col col-12 *ngIf="userDetail">
   
