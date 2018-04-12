@@ -1,89 +1,90 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title>Céer un compte</ion-title>
-    </ion-navbar>
-  </ion-header>
+  <ion-navbar>
+    <ion-title>Céer un compte</ion-title>
+  </ion-navbar>
+</ion-header>
 <ion-content padding class="contentLogin">
-    <div>
-      <form #loginForm="ngForm" (ngSubmit)="create()" autocomplete="off">
-        <ion-row>
-          <ion-col>
-            <ion-list inset>
-                <ion-row>
-                    <ion-col col-10>
-              <ion-item>
-                <ion-input placeholder="Email" name="email" id="emailField"
-                           type="text" required [(ngModel)]="email"  (keyup)=verifEmail()><ion-icon name="checkmark-circle"></ion-icon></ion-input>
-              </ion-item>
-              </ion-col>
-              <ion-col col-2>
-           
-                  <ion-label  *ngIf="emailOk" ><ion-icon class="champStrong" name="checkmark"></ion-icon></ion-label>
-                  <ion-label  *ngIf="!emailOk" ><ion-icon  class="champKo" name="close"></ion-icon></ion-label>
-  
-  
-              </ion-col>
-            </ion-row>  
-              <ion-row>
-                  <ion-col col-10>
-              <ion-item>
-                  <ion-input placeholder="pseudo" name="pseudo" id="pseudoField"
-                             type="text" required [(ngModel)]="pseudo" (keyup)=verifPseudo()></ion-input>
-                </ion-item>
-              </ion-col>
-                <ion-col col-2>
-           
-                    <ion-label  *ngIf="pseudoOk" ><ion-icon class="champStrong" name="checkmark"></ion-icon></ion-label>
-                    <ion-label  *ngIf="!pseudoOk" ><ion-icon  class="champKo" name="close"></ion-icon></ion-label>
-    
-    
-                </ion-col>
-              </ion-row>  
-                <ion-row>
-                    <ion-col col-10>
-              <ion-item>
-
-                <ion-input placeholder="Password" name="password" id="passwordField"
-                           type="password" required [(ngModel)]="password" (keyup)=verifPassword() ></ion-input>
-
-              </ion-item>
-            </ion-col>
-            <ion-col col-2>
-           
-                <ion-label  *ngIf="passwordStrong" ><ion-icon class="champStrong" name="checkmark"></ion-icon></ion-label>
-                <ion-label  *ngIf="passwordMedium" ><ion-icon class="champMedium" name="warning"></ion-icon></ion-label>
-                <ion-label  *ngIf="passwordKo" ><ion-icon  class="champKo" name="close"></ion-icon></ion-label>
-
-
-            </ion-col>
-          </ion-row>  
-          <ion-row>
+  <div>
+    <form #loginForm="ngForm" (ngSubmit)="create()" autocomplete="off">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            <ion-row>
               <ion-col col-10>
-              <ion-item>
-                  <ion-input placeholder="PasswordConfirm" name="passwordConfirm" id="passwordConfirmField"
-                             type="password" required [(ngModel)]="passwordConfirm" (keyup)=verifPasswordConfirm()></ion-input>
+                <ion-item>
+                  <ion-input placeholder="Email" name="email" id="emailField" type="text" required [(ngModel)]="email" (keyup)=verifEmail()>
+                    <ion-icon name="checkmark-circle"></ion-icon>
+                  </ion-input>
                 </ion-item>
               </ion-col>
               <ion-col col-2>
-             
-                  <ion-label  *ngIf="passwordConfirmOk" ><ion-icon class="champStrong" name="checkmark"></ion-icon></ion-label>
-                  <ion-label  *ngIf="!passwordConfirmOk" ><ion-icon  class="champKo" name="close"></ion-icon></ion-label>
-  
-  
+                <ion-label *ngIf="emailOk">
+                  <ion-icon class="champStrong" name="checkmark"></ion-icon>
+                </ion-label>
+                <ion-label *ngIf="!emailOk">
+                  <ion-icon class="champKo" name="close"></ion-icon>
+                </ion-label>
               </ion-col>
-            </ion-row>  
-            </ion-list>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-            <button ion-button block class="submit-btn" full type="submit"
-                    [disabled]="!loginForm.form.valid">Login
-            </button>
-          </ion-col>
-        </ion-row>
-      </form>
-    </div>
-  </ion-content>
-  
+            </ion-row>
+            <ion-row>
+              <ion-col col-10>
+                <ion-item>
+                  <ion-input placeholder="pseudo" name="pseudo" id="pseudoField" type="text" required [(ngModel)]="pseudo" (keyup)=verifPseudo()></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-2>
+                <ion-label *ngIf="pseudoOk">
+                  <ion-icon class="champStrong" name="checkmark"></ion-icon>
+                </ion-label>
+                <ion-label *ngIf="!pseudoOk">
+                  <ion-icon class="champKo" name="close"></ion-icon>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-10>
+                <ion-item>
+                  <ion-input placeholder="Password" name="password" id="passwordField" type="password" required [(ngModel)]="password" (keyup)=verifPassword()></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-2>
+                <ion-label *ngIf="passwordStrong">
+                  <ion-icon class="champStrong" name="checkmark"></ion-icon>
+                </ion-label>
+                <ion-label *ngIf="passwordMedium">
+                  <ion-icon class="champMedium" name="warning"></ion-icon>
+                </ion-label>
+                <ion-label *ngIf="passwordKo">
+                  <ion-icon class="champKo" name="close"></ion-icon>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-10>
+                <ion-item>
+                  <ion-input placeholder="PasswordConfirm" name="passwordConfirm" id="passwordConfirmField" type="password" required [(ngModel)]="passwordConfirm"
+                    (keyup)=verifPasswordConfirm()></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-2>
+                <ion-label *ngIf="passwordConfirmOk">
+                  <ion-icon class="champStrong" name="checkmark"></ion-icon>
+                </ion-label>
+                <ion-label *ngIf="!passwordConfirmOk">
+                  <ion-icon class="champKo" name="close"></ion-icon>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+          <button ion-button block class="submit-btn" full type="submit" [disabled]="!loginForm.form.valid">Login
+          </button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

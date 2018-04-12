@@ -14,65 +14,65 @@ export class CreatePage {
   private pseudo: string;
   private password: string;
   private passwordConfirm: string;
-  private error : string;
-  private passwordStrong : boolean = false;
-  private passwordMedium : boolean = false;
-  private passwordKo : boolean = true;
-  private passwordConfirmOk : boolean = false;
-  private emailOk : boolean = false;
-  private pseudoOk : boolean = false;  
+  private error: string;
+  private passwordStrong: boolean = false;
+  private passwordMedium: boolean = false;
+  private passwordKo: boolean = true;
+  private passwordConfirmOk: boolean = false;
+  private emailOk: boolean = false;
+  private pseudoOk: boolean = false;
 
   private strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
   private mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
   private emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
- 
+
   constructor(public navCtrl: NavController, public http: Http, private storage: Storage) {
 
   }
 
-  create(){
-      if((this.passwordMedium || this.passwordStrong) && this.emailOk && this.pseudoOk && this.passwordConfirmOk ){
-        this.postRequest(this.email, this.password, this.pseudo);
-      }else{
-        this.error = 'Tous les champs ne sont pas validés';
-      }
+  create() {
+    if ((this.passwordMedium || this.passwordStrong) && this.emailOk && this.pseudoOk && this.passwordConfirmOk) {
+      this.postRequest(this.email, this.password, this.pseudo);
+    } else {
+      this.error = 'Tous les champs ne sont pas validés';
+    }
   }
-  verifPseudo(){
-    if(this.pseudo.length>3){
+  verifPseudo() {
+    if (this.pseudo.length > 3) {
       this.pseudoOk = true
     }
-    else{
+    else {
       this.pseudoOk = false;
     }
   }
-  verifPassword(){
-    if(this.strongRegex.test(this.password)){
+  verifPassword() {
+    if (this.strongRegex.test(this.password)) {
       this.passwordStrong = true;
       this.passwordKo = false;
       this.passwordMedium = false;
     }
-    else if(this.mediumRegex.test(this.password)){
+    else if (this.mediumRegex.test(this.password)) {
       this.passwordStrong = false;
       this.passwordKo = false;
       this.passwordMedium = true;
-    }else{
+    } else {
       this.passwordStrong = false;
       this.passwordKo = true;
       this.passwordMedium = false;
     }
   }
-  verifPasswordConfirm(){
-    if(this.password == this.passwordConfirm){
+  verifPasswordConfirm() {
+    if (this.password == this.passwordConfirm) {
       this.passwordConfirmOk = true;
-    }else{
+    } else {
       this.passwordConfirmOk = false;
     }
   }
 
-  verifEmail(){
-    if(this.emailRegex.test(this.email)){
+  verifEmail() {
+    if (this.emailRegex.test(this.email)) {
       this.emailOk = true;
-    }else{
+    } else {
       this.emailOk = false;
     }
   }
@@ -80,32 +80,25 @@ export class CreatePage {
   postRequest(username, password, pseudo) {
     var headers = new Headers();
     headers.append("Accept", 'application/json');
-    headers.append('Content-Type', 'application/json' );
+    headers.append('Content-Type', 'application/json');
     let options = new RequestOptions({ headers: headers });
- 
     let postParams = {
       userEmail: username,
       userPassword: password,
-      userPseudo : pseudo
+      userPseudo: pseudo
     }
-    
     this.http.post("http://rankmyfilmcore.azurewebsites.net/api/user/create", postParams, options)
       .subscribe(data => {
-       
-        if(JSON.parse(data['_body']).idUser!=null){
+        if (JSON.parse(data['_body']).idUser != null) {
           this.storage.set('idUser', JSON.parse(data['_body']).idUser);
           this.storage.set('tokenGenerate', JSON.parse(data['_body']).tokenGenerate);
           this.navCtrl.push(TabsPage);
-          }
-          else{
-            this.error = "Le pseudo ou l'email existe déjà";
-          }
-        
-       }, error => {
-        console.log(error);
-       
+        }
+        else {
+          this.error = "Le pseudo ou l'email existe déjà";
+        }
+      }, error => {
+        this.error = error;
       });
   }
-
-
 }

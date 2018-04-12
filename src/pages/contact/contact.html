@@ -1,34 +1,32 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Contact
-    </ion-title>
-  </ion-navbar>
+	<ion-navbar>
+		<ion-title>
+			Contact
+		</ion-title>
+	</ion-navbar>
 </ion-header>
-
 <ion-content>
-
-      <ion-label>Equipe de Developpeur </ion-label>
-
-      <!-- <ion-icon name="ionic" item-start></ion-icon> -->
-      <ion-label>
-          Developpeur Front :
-      </ion-label>
-      <ion-label>
-          antoine.faller@ynov.com
-        </ion-label>
-
-        <!-- <ion-icon name="ionic" item-start></ion-icon> -->
-        <ion-label>
-            Developpeur Back :
-          </ion-label>
-          <ion-label>
-              mouhsin.ghoraf@ynov.com
-            </ion-label>
-            <ion-label>
-                komisteve.togboga@ynov.com
-              </ion-label>
-              <ion-label>
-                  mark.malaj@ynov.com
-                </ion-label>
+	<ion-label>Equipe de Developpeur </ion-label>
+	<ion-label>
+		Developpeur Front :
+	</ion-label>
+	<ion-label>
+		antoine.faller@ynov.com
+	</ion-label>
+	<ion-label>
+		Developpeur Back :
+	</ion-label>
+	<ion-label>
+		mouhsin.ghoraf@ynov.com
+	</ion-label>
+	<ion-label>
+		komisteve.togboga@ynov.com
+	</ion-label>
+	<ion-label>
+		mark.malaj@ynov.com
+	</ion-label>
+	<button ion-button round class="btnFilm" (click)="testToken()">Test Token</button>
+	<ion-label *ngIf='returnOk != null '>
+		Nombre total de film noté dans l'application : {{returnOk}}
+	</ion-label>
 </ion-content>

@@ -1,45 +1,33 @@
 <ion-header>
-
   <ion-navbar color="primary">
     <ion-title *ngIf="movieDetail">{{movieDetail.Title}}</ion-title>
-    <!-- <ion-buttons end>
-      <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
-        <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
-      </button> 
-    </ion-buttons> -->
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content>
-    <ion-row>
-    <ion-col col-12 *ngIf="movieDetail" >
-        <img [src]="movieDetail.poster" style="width:50%; margin-left:25%;"/>   
-    </ion-col>  
-    </ion-row>
-    <ion-row>
+  <ion-row>
     <ion-col col-12 *ngIf="movieDetail">
-        <ion-label class="movieTitle">{{movieDetail.title}} </ion-label>
-        <p class="movieDesc">{{movieDetail.overview}} </p>
-        <ion-label>Date de Sortie : {{movieDetail.release_date}}</ion-label>
-        <ion-label>Durée : {{movieDetail.runtime}} minutes</ion-label>
-        <p >Genre : <span *ngFor="let genre of movieDetail.genresList; let last = last"> {{genre}} <span *ngIf="!last">,</span></span> </p>
-
-        <ion-label *ngIf="moyenneFriend">Moyenne amis : {{moyenneFriend}} </ion-label>
-        <ion-label *ngIf="moyenneAllUser">Moyenne Utilisateurs : {{moyenneAllUser}}</ion-label>  
-        
-        
-          <ion-item style="padding-left : 0px;">
-              <ion-label>Ma note :  </ion-label>
-              <ion-select [(ngModel)]="note" interface="action-sheet" placeholder={{maNoteAffichage}} (ngModelChange)="ranking($event)">
-                <ion-option value="1"> ★ </ion-option>
-                <ion-option value="2"> ★  ★ </ion-option>
-                <ion-option value="3"> ★  ★  ★ </ion-option>
-                <ion-option value="4"> ★  ★  ★  ★ </ion-option>
-                <ion-option value="5"> ★  ★  ★  ★  ★ </ion-option>
-              </ion-select>
-            </ion-item> 
+      <img [src]="movieDetail.poster" style="width:50%; margin-left:25%;" />
     </ion-col>
-    </ion-row>
+  </ion-row>
+  <ion-row>
+    <ion-col col-12 *ngIf="movieDetail">
+      <ion-label class="movieTitle">{{movieDetail.title}} </ion-label>
+      <p class="movieDesc">{{movieDetail.overview}} </p>
+      <ion-label>Date de Sortie : {{movieDetail.release_date}}</ion-label>
+      <ion-label>Durée : {{movieDetail.runtime}} minutes</ion-label>
+      <p>Genre :<span *ngFor="let genre of movieDetail.genresList; let last = last"> {{genre}}<span *ngIf="!last">,</span></span></p>
+      <ion-label *ngIf="moyenneFriend">Moyenne amis : {{moyenneFriend}} </ion-label>
+      <ion-label *ngIf="moyenneAllUser">Moyenne Utilisateurs : {{moyenneAllUser}}</ion-label>
+      <ion-item style="padding-left : 0px;">
+        <ion-label>Ma note : </ion-label>
+        <ion-select [(ngModel)]="note" interface="action-sheet" placeholder={{maNoteAffichage}} (ngModelChange)="ranking($event)">
+          <ion-option value="1"> ★ </ion-option>
+          <ion-option value="2"> ★ ★ </ion-option>
+          <ion-option value="3"> ★ ★ ★ </ion-option>
+          <ion-option value="4"> ★ ★ ★ ★ </ion-option>
+          <ion-option value="5"> ★ ★ ★ ★ ★ </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
 </ion-content>
