@@ -4,6 +4,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 import { TabsPage } from '../tabs/tabs';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'page-create',
@@ -21,18 +22,20 @@ export class CreatePage {
   private passwordConfirmOk: boolean = false;
   private emailOk: boolean = false;
   private pseudoOk: boolean = false;
-
+  loading;
   private strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
   private mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
   private emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  constructor(public navCtrl: NavController, public http: Http, private storage: Storage) {
+  constructor(public navCtrl: NavController, public http: Http, private storage: Storage, public loadingCtrl: LoadingController) {
 
   }
 
   create() {
     if ((this.passwordMedium || this.passwordStrong) && this.emailOk && this.pseudoOk && this.passwordConfirmOk) {
+    
       this.postRequest(this.email, this.password, this.pseudo);
+      
     } else {
       this.error = 'Tous les champs ne sont pas validés';
     }
@@ -78,6 +81,8 @@ export class CreatePage {
   }
 
   postRequest(username, password, pseudo) {
+    this.loading = this.loadingCtrl.create({});
+    this.loading.present();
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json');
@@ -97,8 +102,12 @@ export class CreatePage {
         else {
           this.error = "Le pseudo ou l'email existe déjà";
         }
+        this.loading.dismiss();
       }, error => {
         this.error = error;
+        console.log(error);
+        this.loading.dismiss();
       });
+      
   }
 }

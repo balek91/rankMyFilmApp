@@ -4,6 +4,7 @@ import { TabsPage } from '../tabs/tabs';
 import { CreatePage } from '../create/create';
 import { Storage } from '@ionic/storage';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { LoadingController } from 'ionic-angular';
 
 declare const window: any;
 
@@ -18,8 +19,9 @@ export class LoginPage {
   private password: string;
   private error: string;
   private logOk: boolean = false;
+  loading;
 
-  constructor(public navCtrl: NavController, private storage: Storage, public http: Http) {
+  constructor(public navCtrl: NavController, private storage: Storage, public http: Http, public loadingCtrl: LoadingController) {
 
   }
 
@@ -35,6 +37,8 @@ export class LoginPage {
     this.postRequest(this.username, this.password);
   }
   postRequest(username, password) {
+    this.loading = this.loadingCtrl.create({});
+    this.loading.present();
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json');
@@ -53,9 +57,10 @@ export class LoginPage {
         else {
           this.error = "User ou Password incorrect";
         }
-
+        this.loading.dismiss();
       }, error => {
         this.error = error;
+        this.loading.dismiss();
       });
   }
 }
